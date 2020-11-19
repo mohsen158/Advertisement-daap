@@ -30,64 +30,92 @@ let index = 0;
 export var sc = new web3.eth.Contract(
   [
     {
-      constant: false,
-      inputs: [
+      "constant": true,
+      "inputs": [],
+      "name": "name",
+      "outputs": [
         {
-          name: "amount",
-          type: "uint256",
-        },
+          "name": "",
+          "type": "string"
+        }
       ],
-      name: "deposit",
-      outputs: [],
-      payable: true,
-      stateMutability: "payable",
-      type: "function",
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
     },
     {
-      constant: false,
-      inputs: [
+      "constant": true,
+      "inputs": [],
+      "name": "getBalance",
+      "outputs": [
         {
-          name: "nameT",
-          type: "string",
-        },
+          "name": "",
+          "type": "uint256"
+        }
       ],
-      name: "setName",
-      outputs: [],
-      payable: false,
-      stateMutability: "nonpayable",
-      type: "function",
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
     },
     {
-      constant: false,
-      inputs: [],
-      name: "withdraw",
-      outputs: [],
-      payable: false,
-      stateMutability: "nonpayable",
-      type: "function",
+      "constant": false,
+      "inputs": [],
+      "name": "withdraw",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
     },
     {
-      inputs: [],
-      payable: false,
-      stateMutability: "nonpayable",
-      type: "constructor",
-    },
-    {
-      constant: true,
-      inputs: [],
-      name: "getBalance",
-      outputs: [
+      "constant": true,
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
         {
-          name: "",
-          type: "uint256",
-        },
+          "name": "",
+          "type": "address"
+        }
       ],
-      payable: false,
-      stateMutability: "view",
-      type: "function",
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
     },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "deposit",
+      "outputs": [],
+      "payable": true,
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "nameT",
+          "type": "string"
+        }
+      ],
+      "name": "setName",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    }
   ],
-  "0x8CCdcf2B58d7B718c098daB4DDAB4249180Ab648"
+  "0xabCb4d864145d771C3F244c146AC64125e255bE6"
 );
 // web3.version.getNetwork((err, netId) => {
 //   switch (netId) {

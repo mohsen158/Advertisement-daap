@@ -6,7 +6,7 @@
         <sui-image avatar :src="randomAvatar()" shape="circular" size="mini" />
 
         <sui-list-content>
-          <a is="sui-list-header">Rachel</a>
+          <a is="sui-list-header">{{ad.text}}</a>
 
           <sui-list-description>
             Last seen watching
@@ -50,6 +50,9 @@ export default {
     },
   },
   mounted: function () {
+    var dt = sc.methods.owner().call().then(console.log); 
+    // console.log(dt)
+     this.ads.push({key:3,text:dt})
 
   },
 };
