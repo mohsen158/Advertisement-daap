@@ -4,7 +4,7 @@
      
       <sui-grid-row :columns="2"  >
         <sui-grid-column>
-        <sui-image :src="randomAvatar" shape="circular" size="tiny" />
+        <sui-image avatar :src="randomAvatar" shape="circular" size="tiny" />
         </sui-grid-column>
       </sui-grid-row>
       </div>

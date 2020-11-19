@@ -1,19 +1,56 @@
 <template>
-  <sui-segment >
-    
-     sdssd
-  </sui-segment>
-  
+  <div v-if="ads">
+    Advertises
+    <sui-list>
+      <sui-list-item v-bind:key="ad.key" v-for="ad in ads">
+        <sui-image avatar :src="randomAvatar()" shape="circular" size="mini" />
+
+        <sui-list-content>
+          <a is="sui-list-header">Rachel</a>
+
+          <sui-list-description>
+            Last seen watching
+            <a>
+              <b>Arrested Development</b>
+            </a>
+
+            just now.
+          </sui-list-description>
+        </sui-list-content>
+        <sui-divider />
+      </sui-list-item>
+    </sui-list>
+  </div>
+  <!-- <div v-if="ads">
+    <div v-bind:key="item" v-for="ad in ads">
+      <sui-segment aligned="left"
+        ><sui-message success> <p>Left</p> </sui-message>
+      </sui-segment>
+    </div>
+     
+  </div> -->
 </template>
 
 <script>
+import {sc} from "../contract"
 export default {
   name: "Main",
+  data: function () {
+    return {
+      ads: [{key:1,text:"sdfsd"}, {key:2,text:"sdaaaafsd"}],
+    };
+  },
   props: {
     msg: String,
   },
-  computed: {
-   
+  methods: {
+    randomAvatar: function () {
+      var r = Math.floor(Math.random() * 24) + 1;
+      return require(`@/assets/` + r + ".png");
+    },
+  },
+  mounted: function () {
+
   },
 };
 </script>
