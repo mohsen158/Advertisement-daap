@@ -27,6 +27,7 @@ else {
 let index = 0;
 // console.log(web3.eth.getStorageAt(contractAddress, index))
 // console.log('DEC:' +(web3.eth.getStorageAt(contractAddress, index).then(ttt=>console.log(ttt))))
+
 export var sc = new web3.eth.Contract(
   [
     {

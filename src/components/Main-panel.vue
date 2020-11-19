@@ -50,9 +50,12 @@ export default {
     },
   },
   mounted: function () {
-    var dt = sc.methods.owner().call().then(console.log); 
+   var  that=this
+    var dt = sc.methods.owner().call().then(function(data){
+
+       that.ads.push({key:3,text:data})
+    }); 
     // console.log(dt)
-     this.ads.push({key:3,text:dt})
 
   },
 };
