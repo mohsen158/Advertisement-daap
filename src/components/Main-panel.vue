@@ -12,6 +12,7 @@
           </sui-label>
 
           <a is="sui-label" color="red" ribbon> <b> Id: </b> {{ ad.id }} </a>
+          <sui-label v-if="ad.count>0" color="teal" floating> {{ad.count}} </sui-label>
           <sui-grid :columns="3">
             <sui-grid-row>
               <sui-grid-column :width="2">
@@ -26,10 +27,12 @@
 
                   <sui-grid-row :columns="3">
                     <sui-grid-column> </sui-grid-column>
-                    <sui-grid-column> 44444444444 </sui-grid-column>
+                    <sui-grid-column>  
+                        <a is="sui-label"   tag> {{ad.category}} </a>
+                      </sui-grid-column>
                     <sui-grid-column>
                       <div v-if="ad.recForMe">
-                      <a is="sui-label" color="teal" tag> Received </a>
+                        <a is="sui-label" color="teal" tag> Received </a>
                       </div>
                     </sui-grid-column>
                   </sui-grid-row>
@@ -120,25 +123,32 @@ export default {
             .getAdContents(id)
             .call()
             .then(function (content) {
+              console.log("connnn",content);
               sc.methods
                 .getAdReceivers(id)
                 .call()
                 .then(function (adArray) {
                   var mineAdd = web3.eth.currentProvider.selectedAddress;
                   const newAdArray = adArray.map((name) => name.toLowerCase());
-
-                  let obj = {
-                    id: id,
-                    link: content[0],
-                    category: content[1],
-                    region: content[2],
-                    date: content[3],
-                    budget: content[4],
-                    recArray: adArray,
-                    recForMe: newAdArray.includes(mineAdd.toLowerCase()),
-                  };
-                  console.log(id);
-                  that.ads.push(obj);
+                  sc.methods
+                    .getAdReceivedCount(mineAdd, id)
+                    .call()
+                    .then(function (count) {
+                      let obj = {
+                        id: id,
+                        link: content[0],
+                        category: content[1],
+                        region: content[2],
+                        date: content[3],
+                        budget: content[4],
+                        recArray: adArray,
+                        recForMe: newAdArray.includes(mineAdd.toLowerCase()),
+                        recCount: count,
+                      };
+                      console.log(id);
+                      that.ads.push(obj);
+                      console.log("ads",that.ads)
+                    });
                 });
             });
         }
