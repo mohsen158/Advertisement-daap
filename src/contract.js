@@ -32,24 +32,64 @@ export var sc = new web3.eth.Contract([
 	{
 		"inputs": [
 			{
-				"internalType": "string",
-				"name": "_category",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_region",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_link",
-				"type": "string"
+				"internalType": "address",
+				"name": "",
+				"type": "address"
 			},
 			{
 				"internalType": "uint256",
-				"name": "_budget",
+				"name": "",
 				"type": "uint256"
+			}
+		],
+		"name": "ads",
+		"outputs": [
+			{
+				"internalType": "contract Ad",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_ad",
+				"type": "address"
+			}
+		],
+		"name": "claimAdRewards",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_ad",
+				"type": "address"
+			}
+		],
+		"name": "getAdContents",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "_adLink",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_adCategory",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_adRegion",
+				"type": "string"
 			},
 			{
 				"components": [
@@ -97,184 +137,7 @@ export var sc = new web3.eth.Contract([
 			},
 			{
 				"internalType": "uint256",
-				"name": "_initialNumberOfAdRecievers",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_sender",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "_receiver",
-				"type": "address"
-			}
-		],
-		"name": "addReferralToList",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "calculateAdRewards",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_receiver",
-				"type": "address"
-			}
-		],
-		"name": "fatherExists",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "_exists",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getAdReceivers",
-		"outputs": [
-			{
-				"internalType": "address[]",
-				"name": "",
-				"type": "address[]"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getBudget",
-		"outputs": [
-			{
-				"internalType": "uint256",
 				"name": "_budget",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getCategory",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "_category",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getEndDate",
-		"outputs": [
-			{
-				"components": [
-					{
-						"internalType": "uint256",
-						"name": "year",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "month",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "day",
-						"type": "uint256"
-					}
-				],
-				"internalType": "struct Library.SimpleDate",
-				"name": "_endDate",
-				"type": "tuple"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_child",
-				"type": "address"
-			}
-		],
-		"name": "getFather",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "_father",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getLink",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "_link",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getNumOfAdConversions",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "_num",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getNumOfAdRecievers",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "_num",
 				"type": "uint256"
 			}
 		],
@@ -287,35 +150,52 @@ export var sc = new web3.eth.Contract([
 				"internalType": "address",
 				"name": "_participant",
 				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_ad",
+				"type": "address"
 			}
 		],
-		"name": "getNumOfDirectForwards",
+		"name": "getAdReceivedCount",
 		"outputs": [
 			{
 				"internalType": "uint256",
-				"name": "_num",
+				"name": "_recCount",
 				"type": "uint256"
 			}
 		],
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "getNumberOfDays",
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_ad",
+				"type": "address"
+			}
+		],
+		"name": "getAdReceivers",
 		"outputs": [
 			{
-				"internalType": "uint256",
-				"name": "_days",
-				"type": "uint256"
+				"internalType": "address[]",
+				"name": "",
+				"type": "address[]"
 			}
 		],
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "getRegion",
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_ad",
+				"type": "address"
+			}
+		],
+		"name": "getAdRegion",
 		"outputs": [
 			{
 				"internalType": "string",
@@ -327,59 +207,136 @@ export var sc = new web3.eth.Contract([
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "getStartDate",
-		"outputs": [
+		"inputs": [
 			{
-				"components": [
-					{
-						"internalType": "uint256",
-						"name": "year",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "month",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "day",
-						"type": "uint256"
-					}
-				],
-				"internalType": "struct Library.SimpleDate",
-				"name": "_startDate",
-				"type": "tuple"
+				"internalType": "address",
+				"name": "_ad",
+				"type": "address"
 			}
 		],
-		"stateMutability": "view",
+		"name": "getAdResults",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "_numOfAdRecievers",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_numOfConversions",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
 		"inputs": [],
-		"name": "increaseTotalConversionNumber",
-		"outputs": [],
-		"stateMutability": "nonpayable",
+		"name": "getListOfAds",
+		"outputs": [
+			{
+				"internalType": "address[]",
+				"name": "",
+				"type": "address[]"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
 		"inputs": [
 			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
+				"internalType": "string",
+				"name": "_subject",
+				"type": "string"
 			}
 		],
-		"name": "recipients",
+		"name": "getScoreInSubject",
 		"outputs": [
 			{
-				"internalType": "address",
+				"internalType": "uint256",
 				"name": "",
-				"type": "address"
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_cat",
+				"type": "string"
+			}
+		],
+		"name": "getSeedsInCategory",
+		"outputs": [
+			{
+				"internalType": "address[]",
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_category",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_geographicalArea",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_link",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "startYear",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "startMonth",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "startDay",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "endYear",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "endMonth",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "endDay",
+				"type": "uint256"
+			}
+		],
+		"name": "orderAd",
+		"outputs": [],
+		"stateMutability": "payable",
 		"type": "function"
 	},
 	{
@@ -395,7 +352,7 @@ export var sc = new web3.eth.Contract([
 				"type": "uint256"
 			}
 		],
-		"name": "referrals",
+		"name": "receiversInAds",
 		"outputs": [
 			{
 				"internalType": "address",
@@ -404,6 +361,132 @@ export var sc = new web3.eth.Contract([
 			}
 		],
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_ad",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_recipient",
+				"type": "address"
+			}
+		],
+		"name": "sendAd",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_sender",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_ad",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_receiver",
+				"type": "address"
+			}
+		],
+		"name": "setAdConversionToTrue",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "test",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "testFunction",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_participant",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_ad",
+				"type": "address"
+			}
+		],
+		"name": "updateParticipantPoint",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "_point",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_participant",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "_subject",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_score",
+				"type": "uint256"
+			}
+		],
+		"name": "updateScoreInCategory",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_participant",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_ad",
+				"type": "address"
+			}
+		],
+		"name": "updateScoreInCategoryOnAdFinish",
+		"outputs": [],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	}
 ],
