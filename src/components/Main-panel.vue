@@ -1,7 +1,6 @@
 <template>
   <div v-if="ads">
     <a is="sui-label" color="teal" ribbon> Advertises </a>
-
     <sui-list>
       <sui-container divided v-bind:key="ad.id" v-for="ad in ads">
         <sui-segment raised>
@@ -28,12 +27,16 @@
                   <sui-grid-row :columns="3">
                     <sui-grid-column> </sui-grid-column>
                     <sui-grid-column> 44444444444 </sui-grid-column>
-                    <sui-grid-column> 55555555555 </sui-grid-column>
+                    <sui-grid-column>
+                      <div v-if="ad.recForMe">
+                      <a is="sui-label" color="teal" tag> Received </a>
+                      </div>
+                    </sui-grid-column>
                   </sui-grid-row>
                 </sui-grid>
               </sui-grid-column>
               <sui-grid-column :width="2">
-                <SendAdvertiseButton :adId= ad.id     />
+                <SendAdvertiseButton :adId="ad.id" />
               </sui-grid-column>
             </sui-grid-row>
           </sui-grid>
@@ -81,7 +84,6 @@ import SendAdvertiseButton from "./SendAdvertise-button.vue";
 export default {
   name: "Main",
   components: {
-    
     SendAdvertiseButton,
   },
   data: function () {
@@ -118,17 +120,26 @@ export default {
             .getAdContents(id)
             .call()
             .then(function (content) {
-              console.log("dt", content);
-              let obj = {
-                id: id,
-                link: content[0],
-                category: content[1],
-                region: content[2],
-                date: content[3],
-                budget: content[4],
-              };
-              console.log(id);
-              that.ads.push(obj);
+              sc.methods
+                .getAdReceivers(id)
+                .call()
+                .then(function (adArray) {
+                  var mineAdd = web3.eth.currentProvider.selectedAddress;
+                  const newAdArray = adArray.map((name) => name.toLowerCase());
+
+                  let obj = {
+                    id: id,
+                    link: content[0],
+                    category: content[1],
+                    region: content[2],
+                    date: content[3],
+                    budget: content[4],
+                    recArray: adArray,
+                    recForMe: newAdArray.includes(mineAdd.toLowerCase()),
+                  };
+                  console.log(id);
+                  that.ads.push(obj);
+                });
             });
         }
         // that.ads.push({ key: 3, text: data });
