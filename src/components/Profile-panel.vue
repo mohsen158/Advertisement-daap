@@ -1,11 +1,20 @@
 <template>
-  <sui-segment piled>
+    <sui-grid  :columns="2"   class="cntr" >
+
+
+   <sui-grid-row stretched>
+      <sui-grid-column :width="2">
+         
+               <sui-image avatar :src="randomAvatar" circular shape="circular" size="tiny" style="background-color: #F2F2F2;" />
+ 
+      </sui-grid-column>
+      <sui-grid-column :width="14">
+ <sui-segment piled>
     <sui-grid class="cntr" >
      
       <sui-grid-row :columns="2"  >
         <sui-grid-column>
-        <sui-image avatar :src="randomAvatar" shape="circular" size="tiny" />
-        </sui-grid-column>
+         </sui-grid-column>
       </sui-grid-row>
       </div>
       <sui-grid-row :columns="3">
@@ -14,7 +23,15 @@
         <sui-grid-column> 55555555555 </sui-grid-column>
       </sui-grid-row>
     </sui-grid>
-  </sui-segment>
+  </sui-segment>         
+      </sui-grid-column>
+     
+    </sui-grid-row>
+
+
+ 
+      </sui-grid>
+
 </template>
 
 <script>
