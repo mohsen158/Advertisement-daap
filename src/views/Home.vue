@@ -4,8 +4,8 @@
       <Profile />
       <sui-grid divided>
         <sui-grid-row :columns="2">
-          <sui-grid-column black :width="12"> <Main /> </sui-grid-column>
-          <sui-grid-column :width="4"> <Activity /> </sui-grid-column>
+          <sui-grid-column black :width="10"> <Main /> </sui-grid-column>
+          <sui-grid-column :width="6"> <Activity /> </sui-grid-column>
         </sui-grid-row>
         <sui-grid-row :columns="1">
           <sui-grid-column :width="12">

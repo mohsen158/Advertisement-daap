@@ -1,66 +1,80 @@
 
 <template>
-<div>
-              <sui-button fluid  color="green" content="Send" :loading="loading"  @click.native="toggle"  />
-<sui-modal v-model="open">
+  <div>
+    <sui-button
+      fluid
+      color="green"
+      content="Send"
+      :loading="loading"
+      @click.native="toggle"
+    />
+    <sui-modal v-model="open">
       <sui-modal-header>Select a Photo</sui-modal-header>
       <sui-modal-content image>
-        
         <sui-modal-description>
           <sui-header>Select Receiver</sui-header>
-          <p>
-            Set or choose the receivers' address of this advertise.
-          </p>
+          <p>Set or choose the receivers' address of this advertise.</p>
 
-  <sui-input  v-model="recAdd" placeholder="Address" />
+          <sui-input v-model="recAdd" placeholder="Address" />
         </sui-modal-description>
       </sui-modal-content>
       <sui-modal-actions>
-        <sui-button  positive  @click.native="click">
-          OK
-        </sui-button>
+        <sui-button positive @click.native="click"> OK </sui-button>
       </sui-modal-actions>
     </sui-modal>
-</div>
+  </div>
 </template>
  
 <script>
-import {sc} from "../contract"
+import { sc } from "../contract";
 const Web3 = require("web3");
 export default {
   name: "SendAdvertiseButton",
   props: {
     adId: String,
-    
-    
-  }, methods: {
+  },
+  methods: {
     toggle() {
       this.open = !this.open;
     },
-    buttonLoading(){
+    buttonLoading() {
       this.loading = !this.loading;
     },
     click: function (event) {
-        console.log("sd", this.recAdd);
-        this.toggle();
+      console.log("sd", this.recAdd);
+      this.toggle();
       // `this` inside methods points to the Vue instance
-          this.loading=true
-          try{
-            var that= this
-       sc.methods.sendAd(this.adId, this.recAdd).send({from:  web3.eth.currentProvider.selectedAddress }).then(function(err,res){
-          that.loading=false
-          console.log("err",err,res);
-      })}
-      catch(err)
-      {
-                  this.loading=false
-
-        console.log('try, ',err)
+      this.loading = true;
+      try {
+        var that = this;
+        sc.methods
+          .sendAd(this.adId, this.recAdd)
+          .send({ from: web3.eth.currentProvider.selectedAddress })
+          .on("transactionHash", (hash) => {
+            this.$store.commit("addHashTransaction", {
+              type: "sendAdvertise",
+              hash: hash,
+            });
+          })
+          .on("confirmation", (confirmationNumber, receipt) => {
+            this.$store.commit("addConfirmationActivity", {
+              receipt: receipt,
+              confirmationNumber: confirmationNumber,
+            });
+          })
+          .on("receipt", (receipt) => {
+            // receipt example
+            console.log(receipt);
+            this.loading = false;
+          });
+      } catch (err) {
+        this.loading = false;
+        console.log("try, ", err);
       }
-   
     },
-  },data() {
-    return { open: false,recAdd: '',loading:false };
+  },
+  data() {
+    return { open: false, recAdd: "", loading: false };
   },
   computed: {
     randomAvatar: function () {

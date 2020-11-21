@@ -46,7 +46,9 @@
         </sui-modal-description>
       </sui-modal-content>
       <sui-modal-actions>
-        <sui-button positive @click.native="click"> Add </sui-button>
+        <sui-button positive @click.native="click" :loading="loading">
+          Add
+        </sui-button>
       </sui-modal-actions>
     </sui-modal>
   </div>
@@ -77,6 +79,9 @@ export default {
   },
   methods: {
     toggle() {
+      // this.$store.commit("addEvent", "sdfsfd");
+      // console.log(this.$store.state.adEvents);
+      console.log("inja");
       this.open = !this.open;
     },
     buttonLoading() {
@@ -88,7 +93,7 @@ export default {
       // `this` inside methods points to the Vue instance
       this.loading = true;
       try {
-        var that = this;
+        let that = this;
         sc.methods
           .orderAd(
             this.Category,
@@ -102,9 +107,28 @@ export default {
             this.endDay
           )
           .send({ from: web3.eth.currentProvider.selectedAddress })
-          .then(function (err, res) {
-            that.loading = false;
-            console.log("err", err, res);
+          .on("transactionHash",  (hash)=> {
+            this.$store.commit("addHashTransaction", {
+              type: "addAdvertise",
+              hash:hash,
+            });
+            console.log("hash", hash);
+          })
+          .on("confirmation",   (confirmationNumber, receipt)=> {
+            this.$store.commit("addConfirmationActivity", {
+              receipt: receipt,
+              confirmationNumber: confirmationNumber,
+            });
+            console.log("ON confirmation:", this,confirmationNumber);
+          } )
+          .on("receipt",   (receipt) =>{
+            // receipt example
+            console.log(receipt);
+            this.loading = false;
+          })
+          .on("error",  (err) =>{
+            this.loading = false;
+            console.log("error", err);
           });
       } catch (err) {
         this.loading = false;
