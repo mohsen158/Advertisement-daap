@@ -35,8 +35,8 @@
           </sui-label>
 
           <a is="sui-label" color="red" ribbon> <b> Id: </b> {{ ad.id }} </a>
-          <sui-label v-if="ad.count > 0" color="teal" floating>
-            {{ ad.count }}
+          <sui-label v-if="ad.recCount > 0" color="teal" floating>
+            {{ ad.recCount }}
           </sui-label>
           <sui-grid :columns="3">
             <sui-grid-row>
@@ -50,7 +50,7 @@
                     <sui-grid-column>
                       <sui-label>
                         <sui-icon name="money bill alternate icon" />
-                        {{ ad.budget }} $</sui-label
+                        {{ ad.budget }} Ether</sui-label
                       >
                     </sui-grid-column>
                   </sui-grid-row>
@@ -195,7 +195,7 @@ export default {
                       };
                       console.log(id);
                       that.ads.push(obj);
-                      console.log("ads", content);
+                      console.log("ads", that.ads);
                     });
                 });
             });
