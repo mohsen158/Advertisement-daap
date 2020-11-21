@@ -8,28 +8,58 @@
             ><sui-icon name="globe" />{{ ad.region }}</sui-label
           >
           <sui-label attached="bottom right">
-            <sui-icon name="spinner" loading color="orange" />
+            <span v-if="ad.ended">
+              Ended in {{ ad.dateEnd[0] }},{{ ad.dateEnd[1] }},{{
+                ad.dateEnd[2]
+              }}
+              <sui-icon
+                name="calendar check outline icon"
+                loading
+                color="green"
+              />
+            </span>
+
+            <span v-if="ad.inProgress">
+              InProgress <sui-icon name="spinner" loading color="orange" />
+            </span>
+
+            <span v-if="ad.noStarted">
+              Will start in {{ ad.dateStart[0] }},{{ ad.dateStart[1] }},{{
+                ad.dateStart[2]
+              }}<sui-icon
+                name="calendar alternate outline"
+                loading
+                color="blue"
+              />
+            </span>
           </sui-label>
 
           <a is="sui-label" color="red" ribbon> <b> Id: </b> {{ ad.id }} </a>
-          <sui-label v-if="ad.count>0" color="teal" floating> {{ad.count}} </sui-label>
+          <sui-label v-if="ad.count > 0" color="teal" floating>
+            {{ ad.count }}
+          </sui-label>
           <sui-grid :columns="3">
             <sui-grid-row>
               <sui-grid-column :width="2">
                 <!-- <sui-icon name="linkify icon" link bordered   /> -->
-                {{ ad.link }}
+                <a :href="ad.link"> {{ ad.link }}</a>
               </sui-grid-column>
               <sui-grid-column :width="12">
                 <sui-grid>
                   <sui-grid-row :columns="2">
-                    <sui-grid-column> </sui-grid-column>
+                    <sui-grid-column>
+                      <sui-label>
+                        <sui-icon name="money bill alternate icon" />
+                        {{ ad.budget }} $</sui-label
+                      >
+                    </sui-grid-column>
                   </sui-grid-row>
 
                   <sui-grid-row :columns="3">
                     <sui-grid-column> </sui-grid-column>
-                    <sui-grid-column>  
-                        <a is="sui-label"   tag> {{ad.category}} </a>
-                      </sui-grid-column>
+                    <sui-grid-column>
+                      <a is="sui-label" tag> {{ ad.category }} </a>
+                    </sui-grid-column>
                     <sui-grid-column>
                       <div v-if="ad.recForMe">
                         <a is="sui-label" color="teal" tag> Received </a>
@@ -123,7 +153,7 @@ export default {
             .getAdContents(id)
             .call()
             .then(function (content) {
-              console.log("connnn",content);
+              console.log("connnn", content);
               sc.methods
                 .getAdReceivers(id)
                 .call()
@@ -134,20 +164,38 @@ export default {
                     .getAdReceivedCount(mineAdd, id)
                     .call()
                     .then(function (count) {
+                      var dNow = new Date();
+                      var dStart = new Date(
+                        content[3][0],
+                        content[3][1],
+                        content[3][2]
+                      );
+                      var dEnd = new Date(
+                        content[4][0],
+                        content[4][1],
+                        content[4][2]
+                      );
+                      if (dStart < dNow) {
+                        console.log("sdfsdfsfd");
+                      }
                       let obj = {
                         id: id,
                         link: content[0],
                         category: content[1],
                         region: content[2],
-                        date: content[3],
-                        budget: content[4],
+                        dateStart: content[3],
+                        dateEnd: content[4],
+                        budget: content[5],
                         recArray: adArray,
                         recForMe: newAdArray.includes(mineAdd.toLowerCase()),
                         recCount: count,
+                        ended: dEnd < dNow,
+                        inProgress: dEnd > dNow && dStart < dNow,
+                        noStarted: dStart > dNow,
                       };
                       console.log(id);
                       that.ads.push(obj);
-                      console.log("ads",that.ads)
+                      console.log("ads", content);
                     });
                 });
             });
