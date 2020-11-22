@@ -2,7 +2,91 @@
   <div v-if="ads">
     <a is="sui-label" color="teal" ribbon> Advertises </a>
     <sui-tab :menu="{ secondary: true }">
-     
+      <sui-tab-pane title="My seed" :attached="false">
+        <sui-list>
+          <sui-container
+            divided
+            v-bind:key="ad.id"
+            v-for="ad in seedRandomChoosers"
+          >
+            <sui-segment raised>
+              <sui-label attached="bottom"
+                ><sui-icon name="globe" />{{ ad.region }}</sui-label
+              >
+              <sui-label attached="bottom right">
+                <span v-if="ad.ended">
+                  Ended in {{ ad.dateEnd[0] }},{{ ad.dateEnd[1] }},{{
+                    ad.dateEnd[2]
+                  }}
+                  <sui-icon
+                    name="calendar check outline icon"
+                    loading
+                    color="green"
+                  />
+                </span>
+
+                <span v-if="ad.inProgress">
+                  InProgress <sui-icon name="spinner" loading color="orange" />
+                </span>
+
+                <span v-if="ad.noStarted">
+                  Will start in {{ ad.dateStart[0] }},{{ ad.dateStart[1] }},{{
+                    ad.dateStart[2]
+                  }}<sui-icon
+                    name="calendar alternate outline"
+                    loading
+                    color="blue"
+                  />
+                </span>
+              </sui-label>
+
+              <a is="sui-label" color="red" ribbon>
+                <b> Id: </b> {{ ad.id }}
+              </a>
+              <sui-label v-if="ad.recCount > 0" color="teal" floating>
+                {{ ad.recCount }}
+              </sui-label>
+              <sui-grid :columns="3">
+                <sui-grid-row>
+                  <sui-grid-column :width="2">
+                    <!-- <sui-icon name="linkify icon" link bordered   /> -->
+                    <a :href="ad.link"> {{ ad.link }}</a>
+                  </sui-grid-column>
+                  <sui-grid-column :width="12">
+                    <sui-grid>
+                      <sui-grid-row :columns="2">
+                        <sui-grid-column>
+                          <sui-label>
+                            <sui-icon name="money bill alternate icon" />
+                            {{ ad.budget }} Ether</sui-label
+                          >
+                        </sui-grid-column>
+                      </sui-grid-row>
+
+                      <sui-grid-row :columns="3">
+                        <sui-grid-column> </sui-grid-column>
+                        <sui-grid-column>
+                          <a is="sui-label" tag> {{ ad.category }} </a>
+                        </sui-grid-column>
+                        <sui-grid-column>
+                          <div>
+                            <a is="sui-label" color="pink" tag> Seed </a>
+                          </div>
+                        </sui-grid-column>
+                      </sui-grid-row>
+                    </sui-grid>
+                  </sui-grid-column>
+                  <sui-grid-column :width="2">
+                    <SendAdvertiseButton :adId="ad.id" />
+                  </sui-grid-column>
+                </sui-grid-row>
+              </sui-grid>
+            </sui-segment>
+            <sui-divider />
+          </sui-container>
+        </sui-list>
+      </sui-tab-pane>
+      <!-- ------------------------------------------------------------------------ -->
       <sui-tab-pane title="Received inprogress ads" :attached="false">
         <sui-list>
           <sui-container
@@ -85,17 +169,12 @@
             </sui-segment>
             <sui-divider />
           </sui-container>
-         
         </sui-list>
-       </sui-tab-pane>
-<!-- ------------------------------------------------------------------------- -->
-           <sui-tab-pane title="All ads" :attached="false">
+      </sui-tab-pane>
+      <!-- ------------------------------------------------------------------------- -->
+      <sui-tab-pane title="All ads" :attached="false">
         <sui-list>
-          <sui-container
-            divided
-            v-bind:key="ad.id"
-            v-for="ad in ads"
-          >
+          <sui-container divided v-bind:key="ad.id" v-for="ad in allAds">
             <sui-segment raised>
               <sui-label attached="bottom"
                 ><sui-icon name="globe" />{{ ad.region }}</sui-label
@@ -171,9 +250,8 @@
             </sui-segment>
             <sui-divider />
           </sui-container>
-         
         </sui-list>
-       </sui-tab-pane>
+      </sui-tab-pane>
     </sui-tab>
   </div>
   <!-- <div v-if="ads">
@@ -198,7 +276,7 @@ var web3;
 if (window.ethereum) {
   web3 = new Web3(window.ethereum);
   try {
-    window.ethereum.enable().then(function() {
+    window.ethereum.enable().then(function () {
       // User has allowed account access to DApp...
     });
   } catch (e) {
@@ -221,10 +299,20 @@ export default {
     msg: String,
   },
   computed: {
-    receivedInProgressedAdvertisements: function () {
+    allAds:function () {
+      return this.ads.sort((a, b) => (a.inProgress ==true ? -1 : false));
+    },
+    seedRandomChoosers: function () {
       return this.ads.filter((ad) => {
-        return ad.recForMe && ad.inProgress;
+        return !ad.recForMe && ad.inProgress && Math.random() > 0.7;
       });
+    },
+    receivedInProgressedAdvertisements: function () {
+      return this.ads
+        .filter((ad) => {
+          return ad.recForMe && ad.inProgress;
+        })
+        .sort((a, b) => (a.inProgress ==true ? -1 : false));
     },
   },
   methods: {
