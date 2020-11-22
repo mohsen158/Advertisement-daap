@@ -1,105 +1,180 @@
 <template>
   <div v-if="ads">
     <a is="sui-label" color="teal" ribbon> Advertises </a>
-    <sui-list>
-      <sui-container divided v-bind:key="ad.id" v-for="ad in ads">
-        <sui-segment raised>
-          <sui-label attached="bottom"
-            ><sui-icon name="globe" />{{ ad.region }}</sui-label
+    <sui-tab :menu="{ secondary: true }">
+     
+      <sui-tab-pane title="Received inprogress ads" :attached="false">
+        <sui-list>
+          <sui-container
+            divided
+            v-bind:key="ad.id"
+            v-for="ad in receivedInProgressedAdvertisements"
           >
-          <sui-label attached="bottom right">
-            <span v-if="ad.ended">
-              Ended in {{ ad.dateEnd[0] }},{{ ad.dateEnd[1] }},{{
-                ad.dateEnd[2]
-              }}
-              <sui-icon
-                name="calendar check outline icon"
-                loading
-                color="green"
-              />
-            </span>
+            <sui-segment raised>
+              <sui-label attached="bottom"
+                ><sui-icon name="globe" />{{ ad.region }}</sui-label
+              >
+              <sui-label attached="bottom right">
+                <span v-if="ad.ended">
+                  Ended in {{ ad.dateEnd[0] }},{{ ad.dateEnd[1] }},{{
+                    ad.dateEnd[2]
+                  }}
+                  <sui-icon
+                    name="calendar check outline icon"
+                    loading
+                    color="green"
+                  />
+                </span>
 
-            <span v-if="ad.inProgress">
-              InProgress <sui-icon name="spinner" loading color="orange" />
-            </span>
+                <span v-if="ad.inProgress">
+                  InProgress <sui-icon name="spinner" loading color="orange" />
+                </span>
 
-            <span v-if="ad.noStarted">
-              Will start in {{ ad.dateStart[0] }},{{ ad.dateStart[1] }},{{
-                ad.dateStart[2]
-              }}<sui-icon
-                name="calendar alternate outline"
-                loading
-                color="blue"
-              />
-            </span>
-          </sui-label>
+                <span v-if="ad.noStarted">
+                  Will start in {{ ad.dateStart[0] }},{{ ad.dateStart[1] }},{{
+                    ad.dateStart[2]
+                  }}<sui-icon
+                    name="calendar alternate outline"
+                    loading
+                    color="blue"
+                  />
+                </span>
+              </sui-label>
 
-          <a is="sui-label" color="red" ribbon> <b> Id: </b> {{ ad.id }} </a>
-          <sui-label v-if="ad.recCount > 0" color="teal" floating>
-            {{ ad.recCount }}
-          </sui-label>
-          <sui-grid :columns="3">
-            <sui-grid-row>
-              <sui-grid-column :width="2">
-                <!-- <sui-icon name="linkify icon" link bordered   /> -->
-                <a :href="ad.link"> {{ ad.link }}</a>
-              </sui-grid-column>
-              <sui-grid-column :width="12">
-                <sui-grid>
-                  <sui-grid-row :columns="2">
-                    <sui-grid-column>
-                      <sui-label>
-                        <sui-icon name="money bill alternate icon" />
-                        {{ ad.budget }} Ether</sui-label
-                      >
-                    </sui-grid-column>
-                  </sui-grid-row>
+              <a is="sui-label" color="red" ribbon>
+                <b> Id: </b> {{ ad.id }}
+              </a>
+              <sui-label v-if="ad.recCount > 0" color="teal" floating>
+                {{ ad.recCount }}
+              </sui-label>
+              <sui-grid :columns="3">
+                <sui-grid-row>
+                  <sui-grid-column :width="2">
+                    <!-- <sui-icon name="linkify icon" link bordered   /> -->
+                    <a :href="ad.link"> {{ ad.link }}</a>
+                  </sui-grid-column>
+                  <sui-grid-column :width="12">
+                    <sui-grid>
+                      <sui-grid-row :columns="2">
+                        <sui-grid-column>
+                          <sui-label>
+                            <sui-icon name="money bill alternate icon" />
+                            {{ ad.budget }} Ether</sui-label
+                          >
+                        </sui-grid-column>
+                      </sui-grid-row>
 
-                  <sui-grid-row :columns="3">
-                    <sui-grid-column> </sui-grid-column>
-                    <sui-grid-column>
-                      <a is="sui-label" tag> {{ ad.category }} </a>
-                    </sui-grid-column>
-                    <sui-grid-column>
-                      <div v-if="ad.recForMe">
-                        <a is="sui-label" color="teal" tag> Received </a>
-                      </div>
-                    </sui-grid-column>
-                  </sui-grid-row>
-                </sui-grid>
-              </sui-grid-column>
-              <sui-grid-column :width="2">
-                <SendAdvertiseButton :adId="ad.id" />
-              </sui-grid-column>
-            </sui-grid-row>
-          </sui-grid>
-        </sui-segment>
-        <sui-divider />
-      </sui-container>
-      <!-- <sui-image avatar :src="randomAvatar()" shape="circular" size="mini" />
-
-        <sui-list-content>
-          <a is="sui-list-header">{{ ad.text }}</a>
-
-          <sui-list-description>
-            Last seen watching
-            <a>
-              <b>Arrested Development</b>
-            </a>
-
-            just now.
-         
-         
-          </sui-list-description>
-          
-        </sui-list-content>
-           <sui-segment floated="right" >
-              <p>This segment will appear to the right</p>
+                      <sui-grid-row :columns="3">
+                        <sui-grid-column> </sui-grid-column>
+                        <sui-grid-column>
+                          <a is="sui-label" tag> {{ ad.category }} </a>
+                        </sui-grid-column>
+                        <sui-grid-column>
+                          <div v-if="ad.recForMe">
+                            <a is="sui-label" color="teal" tag> Received </a>
+                          </div>
+                        </sui-grid-column>
+                      </sui-grid-row>
+                    </sui-grid>
+                  </sui-grid-column>
+                  <sui-grid-column :width="2">
+                    <SendAdvertiseButton :adId="ad.id" />
+                  </sui-grid-column>
+                </sui-grid-row>
+              </sui-grid>
             </sui-segment>
-          
-        <sui-divider />
-      </sui-list-item> -->
-    </sui-list>
+            <sui-divider />
+          </sui-container>
+         
+        </sui-list>
+       </sui-tab-pane>
+<!-- ------------------------------------------------------------------------- -->
+           <sui-tab-pane title="All ads" :attached="false">
+        <sui-list>
+          <sui-container
+            divided
+            v-bind:key="ad.id"
+            v-for="ad in ads"
+          >
+            <sui-segment raised>
+              <sui-label attached="bottom"
+                ><sui-icon name="globe" />{{ ad.region }}</sui-label
+              >
+              <sui-label attached="bottom right">
+                <span v-if="ad.ended">
+                  Ended in {{ ad.dateEnd[0] }},{{ ad.dateEnd[1] }},{{
+                    ad.dateEnd[2]
+                  }}
+                  <sui-icon
+                    name="calendar check outline icon"
+                    loading
+                    color="green"
+                  />
+                </span>
+
+                <span v-if="ad.inProgress">
+                  InProgress <sui-icon name="spinner" loading color="orange" />
+                </span>
+
+                <span v-if="ad.noStarted">
+                  Will start in {{ ad.dateStart[0] }},{{ ad.dateStart[1] }},{{
+                    ad.dateStart[2]
+                  }}<sui-icon
+                    name="calendar alternate outline"
+                    loading
+                    color="blue"
+                  />
+                </span>
+              </sui-label>
+
+              <a is="sui-label" color="red" ribbon>
+                <b> Id: </b> {{ ad.id }}
+              </a>
+              <sui-label v-if="ad.recCount > 0" color="teal" floating>
+                {{ ad.recCount }}
+              </sui-label>
+              <sui-grid :columns="3">
+                <sui-grid-row>
+                  <sui-grid-column :width="2">
+                    <!-- <sui-icon name="linkify icon" link bordered   /> -->
+                    <a :href="ad.link"> {{ ad.link }}</a>
+                  </sui-grid-column>
+                  <sui-grid-column :width="12">
+                    <sui-grid>
+                      <sui-grid-row :columns="2">
+                        <sui-grid-column>
+                          <sui-label>
+                            <sui-icon name="money bill alternate icon" />
+                            {{ ad.budget }} Ether</sui-label
+                          >
+                        </sui-grid-column>
+                      </sui-grid-row>
+
+                      <sui-grid-row :columns="3">
+                        <sui-grid-column> </sui-grid-column>
+                        <sui-grid-column>
+                          <a is="sui-label" tag> {{ ad.category }} </a>
+                        </sui-grid-column>
+                        <sui-grid-column>
+                          <div v-if="ad.recForMe">
+                            <a is="sui-label" color="teal" tag> Received </a>
+                          </div>
+                        </sui-grid-column>
+                      </sui-grid-row>
+                    </sui-grid>
+                  </sui-grid-column>
+                  <sui-grid-column :width="2">
+                    <SendAdvertiseButton :adId="ad.id" />
+                  </sui-grid-column>
+                </sui-grid-row>
+              </sui-grid>
+            </sui-segment>
+            <sui-divider />
+          </sui-container>
+         
+        </sui-list>
+       </sui-tab-pane>
+    </sui-tab>
   </div>
   <!-- <div v-if="ads">
     <div v-bind:key="item" v-for="ad in ads">
@@ -127,6 +202,13 @@ export default {
   },
   props: {
     msg: String,
+  },
+  computed: {
+    receivedInProgressedAdvertisements: function () {
+      return this.ads.filter((ad) => {
+        return ad.recForMe && ad.inProgress;
+      });
+    },
   },
   methods: {
     randomAvatar: function () {
@@ -164,20 +246,18 @@ export default {
                     .getAdReceivedCount(mineAdd, id)
                     .call()
                     .then(function (count) {
-                      var dNow = new Date();
-                      var dStart = new Date(
+                      let dNow = new Date();
+                      let dStart = new Date(
                         content[3][0],
                         content[3][1],
                         content[3][2]
                       );
-                      var dEnd = new Date(
+                      let dEnd = new Date(
                         content[4][0],
                         content[4][1],
                         content[4][2]
                       );
-                      if (dStart < dNow) {
-                        console.log("sdfsdfsfd");
-                      }
+
                       let obj = {
                         id: id,
                         link: content[0],

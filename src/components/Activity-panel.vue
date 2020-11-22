@@ -1,5 +1,5 @@
 <template>
-  <sui-segment basic>
+  <sui-segment v-if="activityList.length>0" basic>
     <a is="sui-label" color="blue" ribbon> Activities </a>
 
     <sui-list v-bind:key="act.hash" v-for="act in activityList">
@@ -10,10 +10,10 @@
         >
         <sui-message-list>
           <sui-message-item v-if="act.hash">
-            Transaction hash is {{ act.hash.substr(0, 40) }} ...
+            Transaction hash is {{ act.hash.substr(0, 30) }} ...
           </sui-message-item>
           <sui-message-item>
-            Deployed transactions' time is {{ act.time.getHours() + ":" +  act.time.getMinutes() + ":" +  act.time.getSeconds()}}
+            Deployed transactions' time is {{ timeDisplayed(act.time) }}
           </sui-message-item>
           <sui-message-item v-if="act.confirmationNumber">
             {{ act.confirmationNumber }} Block confirmations
@@ -27,7 +27,7 @@
         >
         <sui-message-list>
           <sui-message-item v-if="act.hash">
-            Transaction hash is {{ act.hash.substr(0, 40) }} ...
+            Transaction hash is {{ act.hash.substr(0, 30) }} ...
           </sui-message-item>
           <sui-message-item v-if="act.confirmationNumber">
             {{ act.confirmationNumber }} Block confirmations

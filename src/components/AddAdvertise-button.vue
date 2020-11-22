@@ -2,6 +2,7 @@
   <div>
     <sui-button
       fluid
+      color="purple"
       content="Add advertise"
       :loading="loading"
       @click.native="toggle"

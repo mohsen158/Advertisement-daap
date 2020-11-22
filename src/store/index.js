@@ -11,7 +11,7 @@ export default new Vuex.Store({
   getters: {
     activities: (state) => {
       return state.adActivity.sort((a, b) =>
-        a.time < b.time ? -1 : a.time > b.time ? 1 : 0
+        a.time > b.time ? -1 : a.time < b.time ? 1 : 0
       );
     },
   },

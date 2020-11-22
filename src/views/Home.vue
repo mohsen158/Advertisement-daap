@@ -4,11 +4,11 @@
       <Profile />
       <sui-grid divided>
         <sui-grid-row :columns="2">
-          <sui-grid-column black :width="10"> <Main /> </sui-grid-column>
-          <sui-grid-column :width="6"> <Activity /> </sui-grid-column>
+          <sui-grid-column black :width="11"> <Main /> </sui-grid-column>
+          <sui-grid-column :width="5"> <Activity /> </sui-grid-column>
         </sui-grid-row>
         <sui-grid-row :columns="1">
-          <sui-grid-column :width="12">
+          <sui-grid-column :width="11">
             <AddAdvertiseButton />
           </sui-grid-column>
         </sui-grid-row>
