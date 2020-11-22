@@ -188,6 +188,23 @@
 
 <script>
 import { sc } from "../contract";
+const Web3 = require("web3");
+// const web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/7b3a02e10a0043feb895438cb1ad9230"));
+// web3.eth.getBlock("latest", (error, result) => {
+//   console.log('error:', error);
+//   console.log('results', result);
+// });
+var web3;
+if (window.ethereum) {
+  web3 = new Web3(window.ethereum);
+  try {
+    window.ethereum.enable().then(function() {
+      // User has allowed account access to DApp...
+    });
+  } catch (e) {
+    // User has denied account access to DApp...
+  }
+}
 import SendAdvertiseButton from "./SendAdvertise-button.vue";
 export default {
   name: "Main",

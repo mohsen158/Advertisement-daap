@@ -23,7 +23,6 @@ import Profile from "@/components/Profile-panel.vue";
 import Main from "@/components/Main-panel.vue";
 import Activity from "@/components/Activity-panel.vue";
 import AddAdvertiseButton from "@/components/AddAdvertise-button.vue";
-import contract from "../contract";
 export default {
   name: "Home",
   components: {

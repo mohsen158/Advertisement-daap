@@ -26,6 +26,9 @@
               <sui-input v-model="Link" placeholder="Link" />
             </sui-form-field>
             <sui-form-field>
+              <sui-input v-model="budget" placeholder="Budget" />
+            </sui-form-field>
+            <sui-form-field>
               <sui-input v-model="startYear" placeholder="startYear" />
             </sui-form-field>
             <sui-form-field>
@@ -58,6 +61,22 @@
 <script>
 import { sc } from "../contract";
 const Web3 = require("web3");
+// const web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/7b3a02e10a0043feb895438cb1ad9230"));
+// web3.eth.getBlock("latest", (error, result) => {
+//   console.log('error:', error);
+//   console.log('results', result);
+// });
+var web3;
+if (window.ethereum) {
+  web3 = new Web3(window.ethereum);
+  try {
+    window.ethereum.enable().then(function () {
+      // User has allowed account access to DApp...
+    });
+  } catch (e) {
+    // User has denied account access to DApp...
+  }
+}
 export default {
   name: "AddAdvertiseButton",
   props: {
@@ -70,6 +89,7 @@ export default {
       Category: "",
       Link: "",
       GeographicalArea: "",
+      budget: 0,
       startYear: "",
       startMonth: "",
       startDay: "",
@@ -107,27 +127,27 @@ export default {
             this.endMonth,
             this.endDay
           )
-          .send({ from: web3.eth.currentProvider.selectedAddress })
-          .on("transactionHash",  (hash)=> {
+          .send({ from: web3.eth.currentProvider.selectedAddress,value :this.budget })
+          .on("transactionHash", (hash) => {
             this.$store.commit("addHashTransaction", {
               type: "addAdvertise",
-              hash:hash,
+              hash: hash,
             });
             console.log("hash", hash);
           })
-          .on("confirmation",   (confirmationNumber, receipt)=> {
+          .on("confirmation", (confirmationNumber, receipt) => {
             this.$store.commit("addConfirmationActivity", {
               receipt: receipt,
               confirmationNumber: confirmationNumber,
             });
-            console.log("ON confirmation:", this,confirmationNumber);
-          } )
-          .on("receipt",   (receipt) =>{
+            console.log("ON confirmation:", this, confirmationNumber);
+          })
+          .on("receipt", (receipt) => {
             // receipt example
             console.log(receipt);
             this.loading = false;
           })
-          .on("error",  (err) =>{
+          .on("error", (err) => {
             this.loading = false;
             console.log("error", err);
           });

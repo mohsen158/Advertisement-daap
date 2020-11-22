@@ -4,7 +4,7 @@ const Web3 = require("web3");
 //   console.log('error:', error);
 //   console.log('results', result);
 // });
-
+var web3;
 if (window.ethereum) {
   web3 = new Web3(window.ethereum);
   try {
@@ -21,10 +21,9 @@ else if (window.web3) {
 }
 // Non-DApp Browsers
 else {
-  alert("You have to install MetaMask !");
-}
+ }
 
-let index = 0;
+// let index = 0;
 // console.log(web3.eth.getStorageAt(contractAddress, index))
 // console.log('DEC:' +(web3.eth.getStorageAt(contractAddress, index).then(ttt=>console.log(ttt))))
 

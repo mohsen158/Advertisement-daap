@@ -19,7 +19,7 @@
       </sui-grid-row>
       </div>
       <sui-grid-row :columns="3">
-        <sui-grid-column> Wallet Addres {{myAddress}}</sui-grid-column>
+        <sui-grid-column> Wallet Addres {{mineAdd}}</sui-grid-column>
         <sui-grid-column>   </sui-grid-column>
         <sui-grid-column>   </sui-grid-column>
       </sui-grid-row>
@@ -37,11 +37,34 @@
 
 <script>
 import { sc } from "../contract";
+const Web3 = require("web3");
+// const web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/7b3a02e10a0043feb895438cb1ad9230"));
+// web3.eth.getBlock("latest", (error, result) => {
+//   console.log('error:', error);
+//   console.log('results', result);
+// });
 
 export default {
   name: "Profile",
   props: {
     msg: String,
+  },
+  data: function () {
+    return {
+      mineAdd: "",
+    };
+  },
+  mounted: function () {var web3;
+if (window.ethereum) {
+  web3 = new Web3(window.ethereum);
+  try {
+    window.ethereum.enable().then(function () {
+      // User has allowed account access to DApp...
+    });
+  } catch (e) {
+console.log("errrr",e)  }
+}
+ this.mineAdd = web3.eth.currentProvider.selectedAddress;
   },
   computed: {
     randomAvatar: function () {
@@ -50,6 +73,8 @@ export default {
     },
     myAddress: function () {
       var mineAdd = web3.eth.currentProvider.selectedAddress;
+
+      console.log("myAddress::::::::", mineAdd);
       return mineAdd;
     },
   },
